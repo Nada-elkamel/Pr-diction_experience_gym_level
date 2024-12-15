@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercice List</title>
+    <!-- Add Bootstrap CSS for styling -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="{% static 'css/pagination.css' %}">
+
+</head>
+<body>
+
+<div class="container mt-5">
+    <center><h2 class="mb-5">Exercice List</h2></center>
+    <!-- Filters Section: HTML Form -->
+     <center></center>
+    <form method="GET" action="{% url 'exercices_list' %}">
+        <div class="row mb-4">
+            <div class="col-md-3">
+                <select class="form-control" name="name">
+                    <option value="">Select muscle target</option>
+                    <option value="exercices-epaules" {% if request.GET.name == 'exercices-epaules' %} selected {% endif %}>Exercices Épaules</option>
+                    <option value="exercices-biceps" {% if request.GET.name == 'exercices-biceps' %} selected {% endif %}>Exercices Biceps</option>
+                    <option value="exercices-triceps" {% if request.GET.name == 'exercices-triceps' %} selected {% endif %}>Exercices Triceps</option>
+                    <option value="exercices-pectoraux" {% if request.GET.name == 'exercices-pectoraux' %} selected {% endif %}>Exercices Pectoraux</option>
+                    <option value="exercices-dos" {% if request.GET.name == 'exercices-dos' %} selected {% endif %}>Exercices Dos</option>
+                    <option value="exercices-abdominaux" {% if request.GET.name == 'exercices-abdominaux' %} selected {% endif %}>Exercices Abdominauxos</option>
+                    <option value="exercices-fessiers" {% if request.GET.name == 'exercices-fessiers' %} selected {% endif %}>Exercices Fessiers</option>
+                    <option value="exercices-ischio-jambiers" {% if request.GET.name == 'exercices-ischio-jambiers' %} selected {% endif %}>Exercices Ischio jambiers</option>
+                    <option value="exercices-mollets" {% if request.GET.name == 'exercices-mollets' %} selected {% endif %}>Exercices mollets</option>
+                </select>                
+            </div>
+            <div class="col-md-3">
+                <button type="submit" class="btn btn-primary" style="background-color: #E14343; color: white; border: none;">
+                    Apply Filters
+                  </button>                                  
+                  <!-- Reset Button -->
+                <a href="{% url 'exercices_list' %}" class="btn btn-secondary">Reset Filters</a>
+            </div>
+        </div>
+    </form>
+    
+    
+    <table class="table table-striped table-class" id="table-id">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Muscle target</th>
+                <th>Name of exercise</th>
+                <th>Description</th>
+               
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Django Template Tags to Loop Through Data -->
+            {% for exercice in exercices %}
+            <tr>
+                <td>{{ forloop.counter }}</td> 
+                <td>{{ exercice.Name }}</td>
+                <td>{{ exercice.Title }}</td>
+                <td>{{ exercice.Excerpt }}</td>
+                
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+<center>
+    <div class="content_detail__pagination cdp mt-5" actpage="{{ exercices.number }}">
+        <!-- Previous Button -->
+        {% if exercices.has_previous %}
+            <a href="?page=1" class="cdp_i">prev</a>
+        {% else %}
+            <a href="#" class="cdp_i disabled">prev</a>
+        {% endif %}
+    
+        <!-- Numbered Page Links -->
+        {% for page_num in exercices.paginator.page_range %}
+            {% if page_num == exercices.number %}
+                <a href="javascript:void(0)" class="cdp_i active">{{ page_num }}</a>
+            {% elif page_num >= exercices.number|add:"-2" and page_num <= exercices.number|add:"2" %}
+                <a href="?page={{ page_num }}" class="cdp_i">{{ page_num }}</a>
+            {% endif %}
+        {% endfor %}
+    
+        <!-- Next Button -->
+        {% if exercices.has_next %}
+            <a href="?page={{ features.next_page_number }}" class="cdp_i">next</a>
+        {% else %}
+            <a href="#" class="cdp_i disabled">next</a>
+        {% endif %}
+    </div>
+</center>
+
+</div> <!-- End of Container -->
+
+
+</body>
+</html>

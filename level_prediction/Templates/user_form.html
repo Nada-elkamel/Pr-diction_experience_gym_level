@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulaire de Gym</title>
+    <!-- Lien vers Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        /* Réduction de la largeur de la carte */
+        .card-custom {
+            width: 80%; /* Ajuste la largeur à 80% */
+            margin: 0 auto; /* Centrer la carte */
+        }
+        /* Ajuste la hauteur de la carte */
+        .card-body {
+            min-height: 500px; /* Hauteur minimale pour la carte */
+        }
+
+        /* Style personnalisé pour le bouton */
+        .btn-custom {
+            background-color: #E14343; /* Couleur de fond */
+            color: white; /* Couleur du texte */
+            border:#E14343 ; /* Retirer la bordure */
+        }
+    </style>
+</head>
+<body>
+    <!-- Include the sidebar -->
+    {% include 'sidebar.html' %}
+
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Formulaire d'Informations Gym</h2>
+
+    <!-- Card contenant le formulaire avec la classe card-custom -->
+    <div class="card card-custom">
+        <div class="card-header">
+            <h4>Entrer les informations de Gym</h4>
+        </div>
+        <div class="card-body">
+          <form id="gymForm" method="POST" action="{% url 'predict_experience' %}">
+            {% csrf_token %}
+            <div class="row mb-3">
+                <div class="col-6">
+                    <label for="age" class="form-label">Age</label>
+                    <input type="number" class="form-control" id="age" name="Age" required>
+                </div>
+                <div class="col-6">
+                    <label for="gender" class="form-label">Gender</label>
+                    <select class="form-select" id="gender" name="Gender" required>
+                        <option value="">Select Gender</option>
+                        <option value="1">Male</option>
+                        <option value="0">Female</option>
+                    </select>
+                </div>
+            </div>
+        
+            <div class="row mb-3">
+                <div class="col-6">
+                    <label for="weight" class="form-label">Weight (kg)</label>
+                    <input type="number" step="0.1" class="form-control" id="weight" name="Weight_kg" required>
+                </div>
+                <div class="col-6">
+                    <label for="height" class="form-label">Height (m)</label>
+                    <input type="number" step="0.01" class="form-control" id="height" name="Height_m" required>
+                </div>
+            </div>
+        
+            <div class="row mb-3">
+                <div class="col-6">
+                    <label for="max_bpm" class="form-label">Max BPM</label>
+                    <input type="number" step="0.1" class="form-control" id="max_bpm" name="Max_BPM" required>
+                </div>
+                <div class="col-6">
+                    <label for="avg_bpm" class="form-label">Avg BPM</label>
+                    <input type="number" step="0.1" class="form-control" id="avg_bpm" name="Avg_BPM" required>
+                </div>
+            </div>
+        
+            <div class="row mb-3">
+                <div class="col-6">
+                    <label for="resting_bpm" class="form-label">Resting BPM</label>
+                    <input type="number" step="0.1" class="form-control" id="resting_bpm" name="Resting_BPM" required>
+                </div>
+                <div class="col-6">
+                    <label for="session_duration" class="form-label">Session Duration (hours)</label>
+                    <input type="number" step="0.01" class="form-control" id="session_duration" name="Session_Duration_hours" required>
+                </div>
+            </div>
+        
+            <div class="row mb-3">
+                <div class="col-6">
+                    <label for="calories_burned" class="form-label">Calories Burned</label>
+                    <input type="number" step="0.1" class="form-control" id="calories_burned" name="Calories_Burned" required>
+                </div>
+                <div class="col-6">
+                    <label for="workout_type" class="form-label">Workout Type</label>
+                    <select class="form-control" name="Workout_Type" id="workout_type" required>
+                        <option value="">Select Workout Type</option>
+                        <option value="3">HIIT</option>
+                        <option value="2">Strength</option>
+                        <option value="1">Cardio</option>
+                        <option value="0">Yoga</option>
+                    </select>
+                </div>
+            </div>
+        
+            <div class="row mb-3">
+                <div class="col-6">
+                    <label for="fat_percentage" class="form-label">Fat Percentage (%)</label>
+                    <input type="number" step="0.1" class="form-control" id="fat_percentage" name="Fat_Percentage" required>
+                </div>
+                <div class="col-6">
+                    <label for="water_intake" class="form-label">Water Intake (liters)</label>
+                    <input type="number" step="0.1" class="form-control" id="water_intake" name="Water_Intake_liters" required>
+                </div>
+            </div>
+        
+            <div class="row mb-3">
+                <div class="col-6">
+                    <label for="workout_frequency" class="form-label">Workout Frequency (days/week)</label>
+                    <input type="number" class="form-control" id="workout_frequency" name="Workout_Frequency_days/week" required>
+                </div>
+                <div class="col-6">
+                    <label for="bmi" class="form-label">BMI</label>
+                    <input type="number" step="0.1" class="form-control" id="bmi" name="BMI" required>
+                </div>
+            </div>
+        
+            <div class="text-center mt-3">
+                <button type="submit" class="btn btn-custom">Submit</button>
+            </div>
+        </form>
+        
+        </div>
+    </div>
+</div>
+
+<!-- Lien vers Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

@@ -7,52 +7,16 @@
     <title>Features List</title>
     <!-- Add Bootstrap CSS for styling -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-	<link rel="stylesheet" href="{% static 'css/pagination.css' %}">
-
+    <link rel="stylesheet" href="{% static 'css/pagination.css' %}">
+    
 </head>
 <body>
 
-<div class="container mt-5">
-    <center><h2 class="mb-5">Gym List</h2></center>
-    <!-- Filters Section: HTML Form -->
-    <form method="GET" action="{% url 'features_list' %}">
-        <div class="row mb-4">
-            <div class="col-md-3">
-                <select class="form-control" name="gender">
-                    <option value="">Select Gender</option>
-                    <option value="Male" {% if request.GET.gender == 'Male' %} selected {% endif %}>Male</option>
-                    <option value="Female" {% if request.GET.gender == 'Female' %} selected {% endif %}>Female</option>
-                </select>
-            </div>
-            <div class="col-md-3">
-                <select class="form-control" name="experience_level">
-                    <option value="">Select Experience Level</option>
-                    <option value="1" {% if request.GET.experience_level == '1' %} selected {% endif %}>Beginner</option>
-                    <option value="2" {% if request.GET.experience_level == '2' %} selected {% endif %}>Intermediate</option>
-                    <option value="3" {% if request.GET.experience_level == '3' %} selected {% endif %}>Advanced</option>
-                </select>
-            </div>
-            <div class="col-md-3">
-                <select class="form-control" name="workout_type">
-                    <option value="">Select Workout Type</option>
-                    <option value="Cardio" {% if request.GET.workout_type == 'Cardio' %} selected {% endif %}>Cardio</option>
-                    <option value="Strength" {% if request.GET.workout_type == 'Strength' %} selected {% endif %}>Strength</option>
-                    <option value="Yoga" {% if request.GET.workout_type == 'Yoga' %} selected {% endif %}>Yoga</option>
-                    <option value="HIIT" {% if request.GET.workout_type == 'HIIT' %} selected {% endif %}>HIIT</option>
-                </select>
-            </div>
-            <div class="col-md-3">
-                <button type="submit" class="btn btn-primary" style="background-color: #E14343; color: white; border: none;">
-                    Apply Filters
-                </button>                                  
-                <!-- Reset Button -->
-                <a href="{% url 'features_list' %}" class="btn btn-secondary">Reset Filters</a>
-            </div>
-        </div>
-    </form>
-    
-    
-    
+<!-- Include the sidebar -->
+{% include 'sidebar.html' %}
+
+<div class="container mt-5" style="margin-left: 135px;">  
+    <center><h2 class="mb-5">Gym Data</h2></center>    
     <table class="table table-striped table-class" id="table-id">
         <thead>
             <tr>
@@ -66,10 +30,9 @@
             </tr>
         </thead>
         <tbody>
-            <!-- Django Template Tags to Loop Through Data -->
             {% for feature in features %}
             <tr>
-                <td>{{ forloop.counter }}</td> <!-- Automatically generates row numbers -->
+                <td>{{ forloop.counter }}</td>
                 <td>{{ feature.Age }}</td>
                 <td>{{ feature.Gender }}</td>
                 <td>{{ feature.Weight }}</td>
@@ -80,36 +43,31 @@
             {% endfor %}
         </tbody>
     </table>
-<center>
-    <div class="content_detail__pagination cdp mt-5" actpage="{{ features.number }}">
-        <!-- Previous Button -->
-        {% if features.has_previous %}
-            <a href="?{{ pagination_url|add:'&page=1' }}" class="cdp_i">prev</a>
-        {% else %}
-            <a href="#" class="cdp_i disabled">prev</a>
-        {% endif %}
-    
-        <!-- Numbered Page Links -->
-        {% for page_num in features.paginator.page_range %}
-            {% if page_num == features.number %}
-                <a href="javascript:void(0)" class="cdp_i active">{{ page_num }}</a>
-            {% elif page_num >= features.number|add:"-2" and page_num <= features.number|add:"2" %}
-                <a href="?{{ pagination_url|add:'&page='|add:page_num }}" class="cdp_i">{{ page_num }}</a>
+
+    <center>
+        <div class="content_detail__pagination cdp" actpage="{{ features.number }}">
+            {% if features.has_previous %}
+                <a href="?page=1" class="cdp_i">prev</a>
+            {% else %}
+                <a href="#" class="cdp_i disabled">prev</a>
             {% endif %}
-        {% endfor %}
-    
-        <!-- Next Button -->
-        {% if features.has_next %}
-            <a href="?{{ pagination_url|add:'&page='|add:features.next_page_number }}" class="cdp_i">next</a>
-        {% else %}
-            <a href="#" class="cdp_i disabled">next</a>
-        {% endif %}
-    </div>
-    
-</center>
-
-</div> <!-- End of Container -->
-
+        
+            {% for page_num in features.paginator.page_range %}
+                {% if page_num == features.number %}
+                    <a href="javascript:void(0)" class="cdp_i active">{{ page_num }}</a>
+                {% elif page_num >= features.number|add:"-2" and page_num <= features.number|add:"2" %}
+                    <a href="?page={{ page_num }}" class="cdp_i">{{ page_num }}</a>
+                {% endif %}
+            {% endfor %}
+        
+            {% if features.has_next %}
+                <a href="?page={{ features.next_page_number }}" class="cdp_i">next</a>
+            {% else %}
+                <a href="#" class="cdp_i disabled">next</a>
+            {% endif %}
+        </div>
+    </center>
+</div>
 
 </body>
 </html>

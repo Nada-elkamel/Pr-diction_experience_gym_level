@@ -7,16 +7,15 @@ class Features(models.Model):
     Height = models.FloatField()
     Max_BPM = models.IntegerField()
     Avg_BPM = models.IntegerField()
-    Resting_BPM = models.IntegerField()  # Ajout des parenthèses manquantes
-    Session_Duration = models.FloatField()  # Adapté au type float
-    Calories_Burned = models.FloatField()  # Adapté au type float
+    Resting_BPM = models.IntegerField()  
+    Session_Duration = models.FloatField() 
+    Calories_Burned = models.FloatField() 
     Workout_Type = models.CharField(max_length=100)
-    Fat_Percentage = models.FloatField()  # Adapté au type float
-    Water_Intake = models.FloatField()  # Adapté au type float
-    Workout_Frequency = models.IntegerField()  # Correction du nom et type
+    Fat_Percentage = models.FloatField() 
+    Water_Intake = models.FloatField()  
+    Workout_Frequency = models.IntegerField()  
     Experience_Level = models.IntegerField()
-    BMI = models.FloatField()  # Adapté au type float
-
+    BMI = models.FloatField()  
     def __str__(self):
         return f"Experience Level: {self.Experience_Level}"
 
